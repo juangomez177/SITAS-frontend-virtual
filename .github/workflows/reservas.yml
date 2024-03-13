@@ -1,0 +1,38 @@
+name: CI/CD
+on: [push]
+env:
+  VERCEL_TOKEN_RESERVAS: "${{ secrets.VERCEL_TOKEN_RESERVAS }}"
+  VERCEL_ORG_ID_RESERVAS: "${{ secrets.VERCEL_ORG_ID_RESERVAS }}"
+  VERCEL_PROJECT_ID_RESERVAS: "${{ secrets.VERCEL_PROJECT_ID_RESERVAS }}"
+jobs:
+    build:
+      runs-on: ubuntu-latest
+      if: github.ref == 'refs/heads/main || github.ref == 'refs/heads/dev'
+      steps:
+        - uses: actions/checkout@v4
+        - run: echo "node_version=$(cat .github/nodejs.version)" >> $GITHUB_ENV
+        - name: "use node ${{ env.node_version }}"
+          uses: actions/setup-node@v3
+          with:
+            node-version: "${{ env.node_version }}"
+        - name: Install dependencies
+          run: yarn install
+        - name: Build
+          run: yarn build
+    Deploy-Dev:
+      needs: build
+      runs-on: ubuntu-latest
+      if: github.ref == 'refs/heads/dev'
+      steps:
+          - uses: actions/checkout@v2
+          - run: echo "node_version=$(cat .github/nodejs.version)" >> $GITHUB_ENV
+          - name: "use node ${{ env.node_version }}"
+            uses: actions/setup-node@v3
+            with:
+              node-version: "${{ env.node_version }}"
+          - name: Install Vercel CLI
+            run: npm install -g vercel@latest
+          - name: Pull Vercel Environment Information
+            run: vercel pull --yes --token ${{ secrets.VERCEL_TOKEN_RESERVAS }}
+          - name: Trigger Vercel Deployment
+            run: vercel deploy --no-wait --token=${{ secrets.VERCEL_TOKEN_RESERVAS }}
