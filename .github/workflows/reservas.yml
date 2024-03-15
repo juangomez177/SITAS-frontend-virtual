@@ -7,7 +7,7 @@ env:
 jobs:
     build:
       runs-on: ubuntu-latest
-      if: github.ref == 'refs/heads/main || github.ref == 'refs/heads/dev'
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev'
       steps:
         - uses: actions/checkout@v4
         - run: echo "node_version=$(cat .github/nodejs.version)" >> $GITHUB_ENV
