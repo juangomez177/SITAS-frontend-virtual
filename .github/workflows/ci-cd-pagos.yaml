@@ -2,9 +2,9 @@
 name: CI/CD-Pagos
 on: [push]
 env:
-  VERCEL_TOKEN_PAGOS: ${{ secrets.VERCEL_TOKEN_PAGOS }}
-  VERCEL_ORG_ID_PAGOS: ${{ secrets.VERCEL_ORG_ID_PAGOS }}
-  VERCEL_PROJECT_ID_PAGOS: ${{ secrets.VERCEL_PROJECT_ID_PAGOS }}
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN_PAGOS }}
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID_PAGOS }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_PAGOS }}
 jobs:
   Build:
     runs-on: ubuntu-latest
