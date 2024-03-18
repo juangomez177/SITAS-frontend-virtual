@@ -7,7 +7,7 @@ import { LP_GRID_ITEMS } from "lp-items";
 
 
 
-export function Home() {
+/**export function Home() {
   return (
     <div className='bg-white h-screen flex justify-center items-center'>
       <Menu />
@@ -26,7 +26,7 @@ export function Home() {
         
     </div>
   );
-}
+}**/
 
 
 export const metadata: Metadata = {
