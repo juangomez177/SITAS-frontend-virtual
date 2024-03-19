@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useState } from 'react';
+import TextField from '@mui/material/TextField';
 
 
 type FormInputs = {
@@ -26,11 +27,6 @@ export const RegisterForm = () => {
    return (
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
 
-         {/* {
-        errors.name?.type === 'required' && (
-          <span className="text-red-500">* El nombre es obligatorio</span>
-        )
-      } */}
 
 
          <label htmlFor="email">Nombre completo</label>
@@ -81,17 +77,10 @@ export const RegisterForm = () => {
 
 
 
-         <button className="btn-primary">Crear cuenta</button>
+         <button className="bg-blue-500 text-center rounded h-10 mb-3 flex items-center justify-center text-white">Crear cuenta</button>
 
-         {/* divisor l ine */}
-         <div className="flex items-center my-5">
-            <div className="flex-1 border-t border-gray-500"></div>
-            <div className="px-2 text-gray-800">O</div>
-            <div className="flex-1 border-t border-gray-500"></div>
-         </div>
-
-         <Link href="/auth/login" className="btn-secondary text-center">
-            Ingresar
+         <Link href="/auth/login" className='underline text-center'>
+            Ya tienes una cuenta? Inicia sesión
          </Link>
       </form>
    );

@@ -6,11 +6,16 @@ const roboto = Roboto({
   subsets: ['latin'],
   display: 'swap',
 })
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={roboto.className}>
-      <body>{children}</body>
+      <body>
+        <AppRouterCacheProvider>
+          {children}
+        </AppRouterCacheProvider>
+      </body>
     </html>
   )
 }
