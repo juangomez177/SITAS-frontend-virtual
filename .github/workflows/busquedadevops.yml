@@ -1,9 +1,9 @@
 name: CI/CD
 on: [push]
 env:
-  VERCEL_TOKEN_BUSQUEDA: ${{ secrets.VERCEL_TOKEN_BUSQUEDA }}
-  VERCEL_ORG_ID_BUSQUEDA: ${{ secrets.VERCEL_ORG_ID_BUSQUEDA }}
-  VERCEL_PROJECT_ID_BUSQUEDA: ${{ secrets.VERCEL_PROJECT_ID_BUSQUEDA }}
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN_BUSQUEDA }}
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID_BUSQUEDA }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_BUSQUEDA }}
 jobs:
   Build:
     runs-on: ubuntu-latest
