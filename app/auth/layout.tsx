@@ -25,21 +25,12 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
          </Box>
 
          <div className="flex justify-center bg-gray-100 min-h-screen">
-            <Box sx={{ backgroundColor: 'white', borderRadius: '40px', marginTop:'65px', marginBottom:'65px' }} >
+            <Box sx={{ backgroundColor: 'white', borderRadius: '40px', marginTop:'65px', marginBottom:'100px' }} >
                <div className="sm:w-[600px] px-10">
                   {children}
                </div>
             </Box>
          </div>
-
-         {/* <Box
-               display='flex'
-               justifyContent='center'
-               alignItems='center'
-               height='calc(100vh - 80px)'
-            >
-               {children}
-            </Box> */}
 
          <Footer>
             <span>Copyright © Singapur Airlines 2024</span>
