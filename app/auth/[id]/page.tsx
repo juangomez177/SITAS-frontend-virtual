@@ -1,7 +1,7 @@
 export default function Web() {
     return (
       <>
-        <div>Hola Mundo ID_Auth</div>
+        <div>Hola Módulo de Autenticación</div>
       </>
     )
   }
