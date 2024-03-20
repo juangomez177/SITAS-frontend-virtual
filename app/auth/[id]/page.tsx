@@ -1,8 +1,7 @@
 export default function Web() {
-    return (
-      <>
-        <div>Hola Módulo de Autenticación</div>
-      </>
-    )
-  }
-  
+  return (
+    <>
+      <div>Módulo de Autenticación</div>
+    </>
+  )
+}
