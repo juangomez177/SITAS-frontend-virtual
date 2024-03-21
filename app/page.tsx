@@ -3,9 +3,7 @@ import { Metadata } from "next"
 //import {Buttom, Menu} from "components/atoms/buttoms";
 import { Button } from "components/Button/Button"
 //import {Card} from "components/molecules/cards";
-import { LP_GRID_ITEMS } from "lp-items";
-
-
+import { LP_GRID_ITEMS } from "lp-items"
 
 /**export function Home() {
   return (
@@ -27,7 +25,6 @@ import { LP_GRID_ITEMS } from "lp-items";
     </div>
   );
 }**/
-
 
 export const metadata: Metadata = {
   title: "Next.js Enterprise Boilerplate",
@@ -90,5 +87,3 @@ export default function Web() {
     </>
   )
 }
-
-
