@@ -1,8 +1,8 @@
 import { Metadata } from "next"
 //import Badge from "components/atoms/badge";
-import {Buttom, Menu} from "components/atoms/buttoms";
+//import {Buttom, Menu} from "components/atoms/buttoms";
 import { Button } from "components/Button/Button"
-import {Card} from "components/molecules/cards";
+//import {Card} from "components/molecules/cards";
 import { LP_GRID_ITEMS } from "lp-items";
 
 
