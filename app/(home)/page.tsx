@@ -2,7 +2,9 @@ import React from 'react'
 
 const homePage = () => {
   return (
-    <section></section>
+    <section>
+      
+    </section>
   )
 }
 
