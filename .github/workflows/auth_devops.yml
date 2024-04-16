@@ -1,5 +1,5 @@
 # .github/workflows/ci-cd.yml
-name: CI/CD
+name: CI/CD Auth module
 on: [push]
 env:
   VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN_AUTH }}
