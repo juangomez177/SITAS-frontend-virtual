@@ -1,4 +1,3 @@
-
 import Box from "@mui/material/Box"
 import UpdateForm from "./ui/UpdateForm"
 
