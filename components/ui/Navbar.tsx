@@ -25,7 +25,7 @@ const Navbar = ({
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Singapur Airline
                     </Typography>
-                    <div className='flex gap-2'>
+                    <div className='flex gap-4 items-center'>
                         {children}
                     </div>
 

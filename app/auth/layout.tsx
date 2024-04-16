@@ -25,7 +25,7 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
          </Box>
 
          <div className="flex justify-center bg-gray-100 min-h-screen">
-            <Box sx={{ backgroundColor: 'white', borderRadius: '40px', marginTop:'65px', marginBottom:'100px' }} >
+            <Box sx={{ backgroundColor: 'white', borderRadius: '40px', marginTop:'65px', marginBottom:'40px' }} >
                <div className="sm:w-[600px] px-10">
                   {children}
                </div>
