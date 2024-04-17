@@ -1,9 +1,8 @@
 "use client"
+import { Fragment } from "react"
 
 import Filters from "components/molecules/Filters/Filters"
 import Table from "components/molecules/Table/Table"
-
-import { Fragment } from "react"
 
 export default function ListadoGestion() {
   return (
