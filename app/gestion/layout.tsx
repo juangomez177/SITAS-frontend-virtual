@@ -1,5 +1,5 @@
-import Footer from "components/molecules/footer/Footer"
-import Navbar from "components/molecules/navbar/Navbar"
+import Footer from "components/molecules/Footer/Footer"
+import Navbar from "components/molecules/Navbar/Navbar"
 
 import { Fragment } from "react"
 

@@ -1,7 +1,7 @@
 "use client"
 
-import Filters from "components/molecules/filters/Filters"
-import Table from "components/molecules/table/Table"
+import Filters from "components/molecules/Filters/Filters"
+import Table from "components/molecules/Table/Table"
 
 import { Fragment } from "react"
 
