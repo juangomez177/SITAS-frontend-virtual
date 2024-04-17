@@ -1,6 +1,7 @@
 "use client"
 
 import { useParams } from "next/navigation"
+
 import { Fragment } from "react"
 
 export default function DetalleGestion() {

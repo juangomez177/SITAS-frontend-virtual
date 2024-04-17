@@ -1,14 +1,15 @@
 "use client"
 
-import { useParams } from "next/navigation"
+import Filters from "components/molecules/filters/Filters"
+import Table from "components/molecules/table/Table"
+
 import { Fragment } from "react"
 
 export default function ListadoGestion() {
-  const { id } = useParams()
-
   return (
     <Fragment>
-      <div>Listado de Vuelos por Gestionar</div>
+      <Filters />
+      <Table />
     </Fragment>
   )
 }
