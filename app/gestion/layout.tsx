@@ -1,12 +1,17 @@
+import Footer from "components/molecules/footer/Footer"
+import Navbar from "components/molecules/navbar/Navbar"
+
 import { Fragment } from "react"
 
 export default function GestionLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <h3>Barra de navegación</h3>
+        <Navbar />
+
         <Fragment>{children}</Fragment>
-        <h3>Footer</h3>
+
+        <Footer />
       </body>
     </html>
   )
