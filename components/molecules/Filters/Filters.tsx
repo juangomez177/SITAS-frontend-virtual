@@ -1,9 +1,22 @@
-import React from "react"
+import { FlightOperation } from "app/gestion/lista/page"
+import React, { Dispatch, SetStateAction } from "react"
 
-const Filters = () => {
+type FiltersProps = {
+  setCurrentOperation: Dispatch<SetStateAction<FlightOperation>>
+}
+
+const Filters: React.FC<FiltersProps> = ({ setCurrentOperation }) => {
+  const handleCreateFlight = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+    event.preventDefault()
+    setCurrentOperation({
+      id: -1,
+      action: "CREATE",
+    })
+  }
+
   return (
     <React.Fragment>
-      <section className="mx-auto rounded-md bg-white px-10 py-5 shadow-md dark:bg-gray-800">
+      <section className="mx-auto rounded-md bg-white px-20  py-5 dark:bg-gray-800">
         <form>
           <div className="mt-4 grid grid-cols-1 gap-10 px-5 sm:grid-cols-2">
             <div>
@@ -55,7 +68,10 @@ const Filters = () => {
             <button className="rounded-full bg-gray-700 px-8 py-2.5 leading-5 text-white transition-colors duration-300 hover:bg-gray-600 focus:bg-gray-600 focus:outline-none">
               Buscar
             </button>
-            <button className="rounded-full bg-gray-700 px-8 py-2.5 leading-5 text-white transition-colors duration-300 hover:bg-gray-600 focus:bg-gray-600 focus:outline-none">
+            <button
+              onClick={handleCreateFlight}
+              className="rounded-full bg-gray-700 px-8 py-2.5 leading-5 text-white transition-colors duration-300 hover:bg-gray-600 focus:bg-gray-600 focus:outline-none"
+            >
               Crear vuelo
             </button>
           </div>
