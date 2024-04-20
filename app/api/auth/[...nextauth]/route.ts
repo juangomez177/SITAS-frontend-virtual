@@ -5,16 +5,16 @@ import bcrypt from 'bcryptjs';
 //TODO: Eliminar
 const users = [
    {
-      id: '1',
+      id: "1",
       email: 'example1@google.com.co',
       password: bcrypt.hashSync('123456', 10),
-      role: 'ADMIN'
+      role: 'ADMINISTRATOR'
    },
    {
-      id: '2',
+      id: "2",
       email: 'example2@google.com.co',
       password: bcrypt.hashSync('123456', 10),
-      role: 'USER'
+      role: 'REGISTEREDUSER'
    }
 ]
 
