@@ -7,24 +7,16 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
 import { Checkbox, CircularProgress, Grid, TextField, Typography } from "@mui/material";
 import { emailValidations } from 'utils';
-
-
-type FormInputs = {
-   email: string;
-   password: string;
-}
+import { LogginInterface } from "interfaces/login.interface";
 
 export const LoginForm = () => {
 
-   const [error, setError] = useState("");
-
-   const [isLoading, setIsLoading] = useState(false);
-
-   const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>();
-
    const router = useRouter()
+   const [error, setError] = useState("");
+   const [isLoading, setIsLoading] = useState(false);
+   const { register, handleSubmit, formState: { errors } } = useForm<LogginInterface>();
 
-   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+   const onSubmit: SubmitHandler<LogginInterface> = async (data) => {
       setError("");
       setIsLoading(true);
       const result = await signIn('credentials', {
@@ -44,7 +36,7 @@ export const LoginForm = () => {
    return (
       <>
 
-         <div className="flex items-center my-5">
+         <div className="flex items-center my-5 mt-10">
             <div className="flex-1 border-t-3 border-gray-300"></div>
             <div className="px-2 text-gray-800">OR</div>
             <div className="flex-1 border-t-3 border-gray-300"></div>
@@ -106,7 +98,7 @@ export const LoginForm = () => {
 
             {error && <div className="text-red-500 text-left mb-3">{error}</div>}
 
-            <Link href="/auth/new-account" className='underline text-center mb-5'>
+            <Link href="/auth/new-account" className='underline text-center mb-5 mt-3'>
                No tienes cuenta? Crear nueva cuenta
             </Link>
 

@@ -9,29 +9,10 @@ import MenuItem from '@mui/material/MenuItem';
 
 import { emailValidations, passwordValidations } from "utils"
 import { TelephonePrefixes } from 'components/Forms/TelephonePrefixes';
-
-//TODO: Convertir esto en una Interface
-type FormInputs = {
-  name: string
-  lastName: string
-  identificationType: string
-  identificationNumber: string
-  email: string
-  password: string
-  telephonePrefix: string
-  telephoneNumber: string
-  termsAndConditions: boolean
-  privacyPolicy: boolean
-}
-
-const identificationTypes = [
-  { value: "CC", label: "CC" },
-  { value: "PA", label: "PA" },
-  { value: "CE", label: "CE" },
-  { value: "RC", label: "RC" },
-]
+import { UserInterface, identificationTypes } from 'interfaces';
 
 export const RegisterForm = () => {
+
   const [errorMessage, setErrorMessage] = useState("")
   const {
     register,
@@ -40,9 +21,9 @@ export const RegisterForm = () => {
     getValues,
     setValue,
     watch,
-  } = useForm<FormInputs>()
+  } = useForm<UserInterface>()
 
-  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+  const onSubmit: SubmitHandler<UserInterface> = async (data) => {
     //setErrorMessage('');
   }
 
@@ -198,7 +179,7 @@ export const RegisterForm = () => {
         Crear cuenta
       </button>
 
-      <Link href="/auth/login" className="mb-5 text-center underline">
+      <Link href="/auth/login" className="mb-5 mt-3 text-center underline">
         Ya tienes una cuenta? Inicia sesión
       </Link>
     </form>

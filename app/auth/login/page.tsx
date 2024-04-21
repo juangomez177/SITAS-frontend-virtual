@@ -1,5 +1,10 @@
+'use client';
+
 import { Titles } from "components/ui/Titles";
 import { LoginForm } from "./ui/LoginForm";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
+import { useEffect } from "react";
 
 export default function LoginPage() {
    return (

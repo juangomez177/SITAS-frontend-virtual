@@ -34,7 +34,7 @@ export default function HomeLayout({ children, }: { children: React.ReactNode })
                         )
                 }
             </Navbar>
-            <main>
+            <main className="flex-grow bg-gray-100">
                 {children}
             </main>
             <Footer>

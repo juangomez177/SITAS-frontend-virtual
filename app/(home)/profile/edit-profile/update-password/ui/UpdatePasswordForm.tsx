@@ -44,7 +44,7 @@ export default function UpdatePasswordForm() {
                     onMouseDown={handleMouseDownPassword}
                     edge="end"
                   >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                 </InputAdornment>
               ),
@@ -67,7 +67,7 @@ export default function UpdatePasswordForm() {
                     onMouseDown={handleMouseDownPassword2}
                     edge="end"
                   >
-                    {showPassword2 ? <VisibilityOff /> : <Visibility />}
+                    {showPassword2 ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                 </InputAdornment>
               ),
@@ -90,7 +90,7 @@ export default function UpdatePasswordForm() {
                     onMouseDown={handleMouseDownPassword3}
                     edge="end"
                   >
-                    {showPassword3 ? <VisibilityOff /> : <Visibility />}
+                    {showPassword3 ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                 </InputAdornment>
               ),
@@ -100,7 +100,7 @@ export default function UpdatePasswordForm() {
       </Grid>
       <button
         className="my-3 flex h-10 w-full items-center justify-center rounded bg-blue-500 text-center text-white"
-        style={{ marginTop: "12%", marginBottom: "0" }}
+        style={{ marginTop: "12%", marginBottom: "10%" }}
       >
         Cambiar contraseña
       </button>
