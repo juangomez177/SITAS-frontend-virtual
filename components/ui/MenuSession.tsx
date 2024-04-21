@@ -8,6 +8,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import PersonIcon from '@mui/icons-material/Person';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import styled from '@emotion/styled';
+import { useRouter } from 'next/navigation';
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -43,17 +44,29 @@ const StyledMenu = styled((props: MenuProps) => (
 }));
 
 const MenuSession = () => {
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const router = useRouter();
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const navigateTo = (path: string) => {
+    router.push(path);
+    handleClose();
+  }
+
   const handleExit = () => {
     signOut()
+    router.push('/');
   }
+
   return (
     <>
       <Button
@@ -82,7 +95,7 @@ const MenuSession = () => {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose} disableRipple>
+        <MenuItem onClick={() => navigateTo('/profile')} disableRipple>
           <PersonIcon />
           Perfil
         </MenuItem>

@@ -10,7 +10,7 @@ import Link from "next/link";
 export default function HomeLayout({ children, }: { children: React.ReactNode }) {
 
     const { data: session } = useSession();
-    //console.log(session?.user.role)
+    console.log(session)
 
     return (
         <div className="flex flex-col min-h-screen">
