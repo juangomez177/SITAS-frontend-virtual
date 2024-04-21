@@ -7,15 +7,26 @@ import Navbar from "components/ui/Navbar"
 import Footer from "components/ui/Footer";
 import Link from "next/link";
 
+import jwt from 'jsonwebtoken';
+import { JWTPayload } from "interfaces/jwt.interface";
+import { UserRoles } from "interfaces";
+
 export default function HomeLayout({ children, }: { children: React.ReactNode }) {
 
     const { data: session } = useSession();
-    console.log(session)
+    let userInformation: JWTPayload | null = null;
+
+    if(session) {
+        const token: string = session.user.token;
+        userInformation = jwt.decode(token as string) as JWTPayload;
+    }
+
+    console.log(userInformation?.roleId)
 
     return (
         <div className="flex flex-col min-h-screen">
             <Navbar>
-                {(session?.user.role == "ADMINISTRATOR") &&
+                {(userInformation?.roleId === UserRoles.ADMINISTRADOR) &&
                     (
                         <>
                             <Link href="/">Gestión de Roles</Link>
@@ -25,7 +36,7 @@ export default function HomeLayout({ children, }: { children: React.ReactNode })
                 <Link href="/">Búsqueda de vuelos</Link>
                 <Link href="/">Checking</Link>
                 {
-                    (session?.user == null) ? <ButtonSession path="/auth/login" content="Iniciar Sesión" />
+                    (userInformation === null) ? <ButtonSession path="/auth/login" content="Iniciar Sesión" />
                         : (
                             <>
                                 <Link href="/">Reserva</Link>

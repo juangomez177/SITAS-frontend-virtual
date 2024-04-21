@@ -18,3 +18,9 @@ export const identificationTypes = [
    { value: "CE", label: "CE" },
    { value: "RC", label: "RC" },
 ]
+
+export enum UserRoles {
+   ADMINISTRADOR = 101,
+   SUPER_USUARIO = 102,
+   USUARIO_REGISTRADO = 103
+}

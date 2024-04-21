@@ -21,8 +21,8 @@ export const LoginForm = () => {
       setIsLoading(true);
       const result = await signIn('credentials', {
          redirect: false,
-         email: data.email,
-         password: data.password
+         email: data.userEmail,
+         password: data.userPassword
       });
       if (result?.error) {
          setError("El nombre de usuario, email o contraseña son incorrectos. Vuelve a ingresar tu información o restablece tu contraseña.");
@@ -51,12 +51,12 @@ export const LoginForm = () => {
                      label="Correo electrónico"
                      variant="outlined"
                      fullWidth
-                     {...register('email', {
+                     {...register('userEmail', {
                         required: 'Este campo es requerido',
                         validate: emailValidations.isEmail,
                      })}
-                     error={!!errors.email}
-                     helperText={errors.email?.message}
+                     error={!!errors.userEmail}
+                     helperText={errors.userEmail?.message}
                   />
                </Grid>
 
@@ -66,11 +66,11 @@ export const LoginForm = () => {
                      variant="outlined"
                      fullWidth
                      type='password'
-                     {...register('password', {
+                     {...register('userPassword', {
                         required: 'Este campo es requerido',
                      })}
-                     error={!!errors.password}
-                     helperText={errors.password?.message}
+                     error={!!errors.userPassword}
+                     helperText={errors.userPassword?.message}
                   />
                </Grid>
 

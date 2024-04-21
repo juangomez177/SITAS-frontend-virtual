@@ -1,5 +1,5 @@
 
 export interface LogginInterface {
-   email: string;
-   password: string;
+   userEmail: string;
+   userPassword: string;
 }
