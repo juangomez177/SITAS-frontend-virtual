@@ -1,6 +1,6 @@
 "use client"
 
-import { Fragment, SetStateAction, useState } from "react"
+import { Fragment, SetStateAction, useEffect, useState } from "react"
 
 import FlightDialogs from "components/molecules/Dialog/FlightDialog"
 import Filters from "components/molecules/Filters/Filters"
@@ -18,6 +18,11 @@ export default function ListadoGestion() {
     id: -1,
     action: "",
   })
+
+useEffect(() => {
+  console.log("Hola mundo")
+  
+}, [])
 
   return (
     <Fragment>
