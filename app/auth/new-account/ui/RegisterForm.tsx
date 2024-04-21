@@ -9,7 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 
 import { emailValidations, passwordValidations } from "utils"
 import { TelephonePrefixes } from 'components/Forms/TelephonePrefixes';
-import { UserInterface, identificationTypes } from 'interfaces';
+import { identificationTypes, UserInterface, } from 'interfaces';
 
 export const RegisterForm = () => {
 
