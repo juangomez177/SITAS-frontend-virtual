@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import Link from "next/link"
 import { Grid, MenuItem, TextField } from "@mui/material"
 import { TelephonePrefixes } from "components/Forms/TelephonePrefixes"
+import { emailValidations } from "utils"
 
 type FormInputs = {
   name: string
@@ -27,7 +28,7 @@ export default function UpdateForm() {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid container={true} spacing={2}>
+        <Grid container={true} spacing={2} marginTop={'5px'}>
           <Grid item xs={12} md={6} lg={6}>
             <TextField
               label="Nombres"
@@ -61,10 +62,7 @@ export default function UpdateForm() {
               fullWidth
               {...register("email", {
                 required: "Este campo es requerido",
-                pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                  message: "El correo electrónico proporcionado no es válido",
-                },
+                validate: emailValidations.isEmail,
               })}
               error={!!errors.email}
               helperText={errors.email?.message}

@@ -92,7 +92,9 @@ export default function UserData() {
                   <TextField
                      name="password"
                      label="Contraseña actual"
+                     variant="outlined"
                      fullWidth
+                     defaultValue={user.password}
                      type={showPassword ? "text" : "password"}
                      InputProps={{
                         endAdornment: (
@@ -107,6 +109,7 @@ export default function UserData() {
                               </IconButton>
                            </InputAdornment>
                         ),
+                        readOnly: true
                      }}
                   />
                </Grid>
@@ -116,13 +119,9 @@ export default function UserData() {
                      select
                      variant="outlined"
                      fullWidth
-                     defaultValue="+57"
+                     defaultValue={user.telephonePrefix}
                      style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
-                     {...register("telephonePrefix", {
-                        required: "Este campo es requerido",
-                     })}
-                     error={!!errors.telephonePrefix}
-                     helperText={errors.telephonePrefix?.message}
+                     InputProps={{ readOnly: true }}
                   >
                      {TelephonePrefixes.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
@@ -136,12 +135,8 @@ export default function UserData() {
                      label="Número de celular"
                      variant="outlined"
                      fullWidth
-                     {...register("telephoneNumber", {
-                        required: "Este campo es requerido",
-                        pattern: { value: /^[0-9]*$/, message: "El número de celular proporcionado no es válido" },
-                     })}
-                     error={!!errors.telephoneNumber}
-                     helperText={errors.telephoneNumber?.message}
+                     defaultValue={user.telephoneNumber}
+                     InputProps={{ readOnly: true }}
                   />
                </Grid>
             </Grid>

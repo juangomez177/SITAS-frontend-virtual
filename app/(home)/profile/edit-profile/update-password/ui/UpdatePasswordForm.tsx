@@ -1,104 +1,106 @@
 "use client"
-import Visibility from "@mui/icons-material/Visibility"
-import VisibilityOff from "@mui/icons-material/VisibilityOff"
-import { Grid, TextField } from "@mui/material"
-import IconButton from "@mui/material/IconButton"
-import InputAdornment from "@mui/material/InputAdornment"
+
+import { Grid } from "@mui/material"
 import React, { useState } from "react"
+import { SubmitHandler, useForm } from "react-hook-form"
+import { passwordValidations } from "utils"
+import PasswordField from "../../../../../../components/ui/PasswordField"
+
+type FormInputs = {
+  currentPassword: string
+  newPassword: string
+  confirmPassword: string
+}
 
 export default function UpdatePasswordForm() {
-  const [showPassword, setShowPassword] = useState(false)
-  const [showPassword2, setShowPassword2] = useState(false)
-  const [showPassword3, setShowPassword3] = useState(false)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm<FormInputs>()
+  const newPassword = watch("newPassword")
+  const currentPassword = watch("currentPassword")
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show)
-  const handleClickShowPassword2 = () => setShowPassword2((show) => !show)
-  const handleClickShowPassword3 = () => setShowPassword3((show) => !show)
+  const [showPassword, setShowPassword] = useState({ current: false, new: false, confirm: false })
+
+  const handleClickShowPassword = (field: "current" | "new" | "confirm") => {
+    setShowPassword({ ...showPassword, [field]: !showPassword[field] })
+  }
 
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
   }
-  const handleMouseDownPassword2 = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault()
+
+  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+    console.log(data)
   }
-  const handleMouseDownPassword3 = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault()
-  }
+
   return (
     <form action="#">
       <Grid container={true} spacing={6}>
-        <Grid item xs={12} md={12} lg={12}>
-          <TextField
-            style={{ marginTop: "5%", marginBottom: "0" }}
-            name="password"
+        <Grid item xs={12} md={12} lg={12} style={{ marginTop: "5%" }}>
+          <PasswordField
             label="Contraseña actual"
-            variant="outlined"
-            fullWidth
-            type={showPassword ? "text" : "password"}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
+            register={register("currentPassword", {
+              required: "Este campo es requerido",
+              validate: passwordValidations.isPassword,
+            })}
+            errors={errors.currentPassword}
+            showPassword={showPassword.current}
+            handleClickShowPassword={() => handleClickShowPassword("current")}
+            handleMouseDownPassword={handleMouseDownPassword}
           />
         </Grid>
         <Grid item xs={12} md={12} lg={12}>
-          <TextField
-            name="newPassword"
-            label="Nueva contraseña "
-            variant="outlined"
-            fullWidth
-            type={showPassword2 ? "text" : "password"}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword2}
-                    onMouseDown={handleMouseDownPassword2}
-                    edge="end"
-                  >
-                    {showPassword2 ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
+          <PasswordField
+            label="Nueva contraseña"
+            register={register("newPassword", {
+              required: "Este campo es requerido",
+              validate: (value) => {
+                if (passwordValidations.isPassword(value)) {
+                  return "La contraseña debe incluir al menos una letra mayúscula, una letra minúscula, un número y un carácter especial, y su extensión debe ser entre 8 y 25 caracteres."
+                }
+                if (value === currentPassword) {
+                  return "La nueva contraseña debe ser diferente de la contraseña actual"
+                }
+                return true
+              },
+            })}
+            errors={errors.newPassword}
+            showPassword={showPassword.new}
+            handleClickShowPassword={() => handleClickShowPassword("new")}
+            handleMouseDownPassword={handleMouseDownPassword}
           />
         </Grid>
         <Grid item xs={12} md={12} lg={12}>
-          <TextField
-            name="confirmPassword"
+          <PasswordField
             label="Confirmar contraseña"
-            variant="outlined"
-            fullWidth
-            type={showPassword3 ? "text" : "password"}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword3}
-                    onMouseDown={handleMouseDownPassword3}
-                    edge="end"
-                  >
-                    {showPassword3 ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
+            register={register("confirmPassword", {
+              required: "Este campo es requerido",
+              validate: (value) => {
+                if (passwordValidations.isPassword(value)) {
+                  return "La contraseña debe incluir al menos una letra mayúscula, una letra minúscula, un número y un carácter especial, y su extensión debe ser entre 8 y 25 caracteres."
+                }
+                if (value !== newPassword) {
+                  return "Las contraseñas no coinciden"
+                }
+                if (value === currentPassword) {
+                  return "La nueva contraseña debe ser diferente de la contraseña actual"
+                }
+                return true
+              },
+            })}
+            errors={errors.confirmPassword}
+            showPassword={showPassword.confirm}
+            handleClickShowPassword={() => handleClickShowPassword("confirm")}
+            handleMouseDownPassword={handleMouseDownPassword}
           />
         </Grid>
       </Grid>
       <button
+        type="submit"
+        onClick={handleSubmit(onSubmit)}
         className="my-3 flex h-10 w-full items-center justify-center rounded bg-blue-500 text-center text-white"
         style={{ marginTop: "12%", marginBottom: "10%" }}
       >
