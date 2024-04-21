@@ -4,6 +4,7 @@ import { Grid, MenuItem, TextField } from "@mui/material"
 import Link from "next/link"
 import { FlagIcon } from "react-flag-kit"
 import { SubmitHandler, useForm } from "react-hook-form"
+import { emailValidations } from "utils"
 
 type FormInputs = {
   name: string
@@ -118,10 +119,7 @@ export default function UpdateForm() {
               fullWidth
               {...register("email", {
                 required: "Este campo es requerido",
-                pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                  message: "El correo electrónico proporcionado no es válido",
-                },
+                validate: emailValidations.isEmail,
               })}
               error={!!errors.email}
               helperText={errors.email?.message}
