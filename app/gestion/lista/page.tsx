@@ -1,7 +1,10 @@
 "use client"
 
-import { Fragment, SetStateAction, useEffect, useState } from "react"
+import { Fragment, useEffect, useState } from "react"
 
+import { toast, ToastContainer } from "react-toastify"
+
+import { Flight, fetchAllFlights } from "app/api/gestion/gestion"
 import FlightDialogs from "components/molecules/Dialog/FlightDialog"
 import Filters from "components/molecules/Filters/Filters"
 import Table from "components/molecules/Table/Table"
@@ -14,21 +17,38 @@ export type FlightOperation = {
 }
 
 export default function ListadoGestion() {
+  const [flights, setFlights] = useState<Flight[]>([])
+  const [pagination, setPagination] = useState({
+    page: 0,
+    size: 10,
+  })
+  const { page, size } = pagination
   const [currentOperation, setCurrentOperation] = useState<FlightOperation>({
     id: -1,
     action: "",
   })
 
-useEffect(() => {
-  console.log("Hola mundo")
-  
-}, [])
+  useEffect(() => {
+    fetchAllFlights(page, size)
+      .then((flights) => {
+        setFlights(flights)
+      })
+      .catch((error) => {
+        toast.error(`Error al cargar los vuelos ${error.message}`)
+      })
+  }, [page, size])
 
   return (
     <Fragment>
+      <ToastContainer />
       <FlightDialogs currentOperation={currentOperation} setCurrentOperation={setCurrentOperation} />
       <Filters setCurrentOperation={setCurrentOperation} />
-      <Table setCurrentOperation={setCurrentOperation} />
+      <Table
+        flights={flights}
+        setCurrentOperation={setCurrentOperation}
+        pagination={pagination}
+        setPagination={setPagination}
+      />
     </Fragment>
   )
 }

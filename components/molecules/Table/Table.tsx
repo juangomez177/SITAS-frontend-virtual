@@ -1,31 +1,31 @@
 // Table.tsx
+import { Flight } from "app/api/gestion/gestion"
 import { Action, FlightOperation } from "app/gestion/lista/page"
 import Pagination from "components/atoms/Pagination/Pagination"
-import React, { Dispatch, SetStateAction, useState } from "react"
-import dummyFlightsData from "./dummyFlightsData.json"
-
-interface RowData {
-  id: number
-  flightNumber: string
-  originCity: string
-  destinationCity: string
-  aircraftCode: string
-  flightType: string
-  actions: string
-}
-
-const rows: RowData[] = dummyFlightsData
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react"
 
 type TableProps = {
   setCurrentOperation: Dispatch<SetStateAction<FlightOperation>>
+  pagination: {
+    page: number
+    size: number
+  }
+  setPagination: Dispatch<
+    SetStateAction<{
+      page: number
+      size: number
+    }>
+  >
+  flights: Flight[]
 }
 
-const Table: React.FC<TableProps> = ({ setCurrentOperation }) => {
-  const [currentPage, setCurrentPage] = useState(1)
+const Table: React.FC<TableProps> = ({ setCurrentOperation, pagination, setPagination, flights }) => {
+  const { page, size } = pagination
+  const [currentTableData, setCurrentTableData] = useState<Flight[]>([])
 
-  const [pageSize, setPageSize] = useState(5)
-  const pageSizeOptions = [5, 10, 15, 20]
-  const currentTableData = rows.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+  useEffect(() => {
+    setCurrentTableData(flights.slice(page * size, (page + 1) * size))
+  }, [flights, page, size, setCurrentTableData])
 
   const handleOpenModal = (id: number, action: Action): void => {
     setCurrentOperation({
@@ -34,9 +34,33 @@ const Table: React.FC<TableProps> = ({ setCurrentOperation }) => {
     })
   }
 
+  const handlePageChange = (page: number): void => {
+    setPagination((prev) => ({
+      ...prev,
+      page,
+    }))
+  }
+
+  const handleSizeChange = (size: number): void => {
+    setPagination({
+      page: 0,
+      size,
+    })
+  }
+
+  const formatDate = (date: Date) => {
+    const options: Intl.DateTimeFormatOptions = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }
+
+    return new Date(date).toLocaleDateString("es-ES", options)
+  }
+
   return (
     <React.Fragment>
-      <div className="overflow-x-auto px-20">
+      <div className="overflow-x-auto px-10">
         <table className="min-w-full leading-normal">
           <thead>
             <tr>
@@ -44,16 +68,34 @@ const Table: React.FC<TableProps> = ({ setCurrentOperation }) => {
                 N° vuelo
               </th>
               <th className="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
-                Ciudad de origen
+                Tipo de Vuelo
               </th>
               <th className="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
-                Ciudad de destino
+                Aeropuerto Origen
               </th>
               <th className="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
-                Codigo de avion
+                Aeropuerto Destino
               </th>
               <th className="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
-                Tipo de vuelo
+                Tipo de Avión
+              </th>
+              <th className="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
+                Fecha de Salida
+              </th>
+              <th className="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
+                Fecha de Llegada
+              </th>
+              <th className="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
+                Precio
+              </th>
+              <th className="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
+                Cantidad de Pasajeros
+              </th>
+              <th className="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
+                Sobretasa
+              </th>
+              <th className="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
+                Porcentaje de Impuestos
               </th>
               <th className="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
                 Acciones
@@ -63,15 +105,27 @@ const Table: React.FC<TableProps> = ({ setCurrentOperation }) => {
           <tbody>
             {currentTableData.map((row, index) => (
               <tr key={index}>
-                <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">{row.flightNumber}</td>
-                <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">{row.originCity}</td>
-                <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">{row.destinationCity}</td>
-                <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">{row.aircraftCode}</td>
-                <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">{row.flightType}</td>
-                <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">{row.numeroVuelo}</td>
+                <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">{row.tipoVuelo}</td>
+                <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">{row.idAeropuertoDestino}</td>
+                <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">{row.idAeropuertoOrigen}</td>
+                <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">{row.idTipoAvion}</td>
+                <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">{formatDate(row.fechaSalida)}</td>
+                <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">{formatDate(row.fechaLlegada)}</td>
+                <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">{row.precio}</td>
+                <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">{row.cantidadPasajeros}</td>
+                <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">{row.sobretasa}</td>
+                <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">{row.porcentajeImpuestos}</td>
+                <td className="flex flex-col space-y-2 border-b border-gray-200 bg-white px-5 py-5 text-sm">
                   <button
                     onClick={() => handleOpenModal(row.id, "UPDATE")}
                     className=" mx-1 rounded-full border-l bg-blue-500 px-5 py-2 text-white"
+                  >
+                    Details
+                  </button>
+                  <button
+                    onClick={() => handleOpenModal(row.id, "UPDATE")}
+                    className=" mx-1 rounded-full border-l bg-yellow-500 px-5 py-2 text-white"
                   >
                     Update
                   </button>
@@ -88,12 +142,12 @@ const Table: React.FC<TableProps> = ({ setCurrentOperation }) => {
         </table>
 
         <Pagination
-          currentPage={currentPage}
-          totalCount={rows.length}
-          pageSize={pageSize}
-          onPageChange={setCurrentPage}
-          onPageSizeChange={(newSize) => setPageSize(newSize)}
-          pageSizeOptions={pageSizeOptions}
+          currentPage={page}
+          totalCount={flights.length}
+          pageSize={size}
+          onPageChange={handlePageChange}
+          onPageSizeChange={handleSizeChange}
+          pageSizeOptions={[5, 10, 15, 20]}
         />
       </div>
     </React.Fragment>
