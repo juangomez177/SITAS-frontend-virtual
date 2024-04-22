@@ -1,5 +1,5 @@
 // Table.tsx
-import { Flight } from "app/api/gestion/gestion"
+import { Flight, FlightsResponse } from "app/api/gestion/gestion"
 import { Action, FlightOperation } from "app/gestion/lista/page"
 import Pagination from "components/atoms/Pagination/Pagination"
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react"
@@ -16,16 +16,13 @@ type TableProps = {
       size: number
     }>
   >
-  flights: Flight[]
+  flightsResponse: FlightsResponse
 }
 
-const Table: React.FC<TableProps> = ({ setCurrentOperation, pagination, setPagination, flights }) => {
+const Table: React.FC<TableProps> = ({ setCurrentOperation, pagination, setPagination, flightsResponse }) => {
   const { page, size } = pagination
-  const [currentTableData, setCurrentTableData] = useState<Flight[]>([])
 
-  useEffect(() => {
-    setCurrentTableData(flights.slice(page * size, (page + 1) * size))
-  }, [flights, page, size, setCurrentTableData])
+  const { vuelos, totalItems } = flightsResponse
 
   const handleOpenModal = (id: number, action: Action): void => {
     setCurrentOperation({
@@ -58,10 +55,15 @@ const Table: React.FC<TableProps> = ({ setCurrentOperation, pagination, setPagin
     return new Date(date).toLocaleDateString("es-ES", options)
   }
 
+  if (totalItems === 0)
+    return (
+      <div className="alert container mx-auto rounded-lg bg-blue-400 p-5 text-center text-white">No hay vuelos</div>
+    )
+
   return (
     <React.Fragment>
-      <div className="overflow-x-auto px-10">
-        <table className="min-w-full leading-normal">
+      <div className="mb-32 overflow-x-auto px-10">
+        <table>
           <thead>
             <tr>
               <th className="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
@@ -103,7 +105,7 @@ const Table: React.FC<TableProps> = ({ setCurrentOperation, pagination, setPagin
             </tr>
           </thead>
           <tbody>
-            {currentTableData.map((row, index) => (
+            {vuelos.map((row, index) => (
               <tr key={index}>
                 <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">{row.numeroVuelo}</td>
                 <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">{row.tipoVuelo}</td>
@@ -118,19 +120,19 @@ const Table: React.FC<TableProps> = ({ setCurrentOperation, pagination, setPagin
                 <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">{row.porcentajeImpuestos}</td>
                 <td className="flex flex-col space-y-2 border-b border-gray-200 bg-white px-5 py-5 text-sm">
                   <button
-                    onClick={() => handleOpenModal(row.id, "UPDATE")}
+                    onClick={() => handleOpenModal(row.id!, "UPDATE")}
                     className=" mx-1 rounded-full border-l bg-blue-500 px-5 py-2 text-white"
                   >
                     Details
                   </button>
                   <button
-                    onClick={() => handleOpenModal(row.id, "UPDATE")}
+                    onClick={() => handleOpenModal(row.id!, "UPDATE")}
                     className=" mx-1 rounded-full border-l bg-yellow-500 px-5 py-2 text-white"
                   >
                     Update
                   </button>
                   <button
-                    onClick={() => handleOpenModal(row.id, "DELETE")}
+                    onClick={() => handleOpenModal(row.id!, "DELETE")}
                     className="bold mx-1 rounded-full bg-red-500 px-5 py-2 text-white"
                   >
                     Cancel
@@ -143,7 +145,7 @@ const Table: React.FC<TableProps> = ({ setCurrentOperation, pagination, setPagin
 
         <Pagination
           currentPage={page}
-          totalCount={flights.length}
+          totalCount={totalItems}
           pageSize={size}
           onPageChange={handlePageChange}
           onPageSizeChange={handleSizeChange}

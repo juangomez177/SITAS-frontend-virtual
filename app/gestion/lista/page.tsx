@@ -4,7 +4,7 @@ import { Fragment, useEffect, useState } from "react"
 
 import { toast, ToastContainer } from "react-toastify"
 
-import { Flight, fetchAllFlights } from "app/api/gestion/gestion"
+import { fetchAllFlights, FlightsResponse } from "app/api/gestion/gestion"
 import FlightDialogs from "components/molecules/Dialog/FlightDialog"
 import Filters from "components/molecules/Filters/Filters"
 import Table from "components/molecules/Table/Table"
@@ -17,9 +17,12 @@ export type FlightOperation = {
 }
 
 export default function ListadoGestion() {
-  const [flights, setFlights] = useState<Flight[]>([])
+  const [flightsResponse, setFlightsResponse] = useState<FlightsResponse>({
+    vuelos: [],
+    totalItems: 0,
+  })
   const [pagination, setPagination] = useState({
-    page: 0,
+    page: 1,
     size: 10,
   })
   const { page, size } = pagination
@@ -28,23 +31,32 @@ export default function ListadoGestion() {
     action: "",
   })
 
-  useEffect(() => {
-    fetchAllFlights(page, size)
+  const handleFetchFlights = () => {
+    fetchAllFlights(page - 1, size)
       .then((flights) => {
-        setFlights(flights)
+        console.log({ flights })
+        setFlightsResponse(flights)
       })
       .catch((error) => {
         toast.error(`Error al cargar los vuelos ${error.message}`)
       })
+  }
+
+  useEffect(() => {
+    handleFetchFlights()
   }, [page, size])
 
   return (
     <Fragment>
       <ToastContainer />
-      <FlightDialogs currentOperation={currentOperation} setCurrentOperation={setCurrentOperation} />
+      <FlightDialogs
+        syncFlights={handleFetchFlights}
+        currentOperation={currentOperation}
+        setCurrentOperation={setCurrentOperation}
+      />
       <Filters setCurrentOperation={setCurrentOperation} />
       <Table
-        flights={flights}
+        flightsResponse={flightsResponse}
         setCurrentOperation={setCurrentOperation}
         pagination={pagination}
         setPagination={setPagination}

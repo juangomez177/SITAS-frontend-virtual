@@ -7,24 +7,27 @@ import CreateFlightDialog from "./CreateFlightDialog"
 type FlightDialogsProps = {
   currentOperation: FlightOperation
   setCurrentOperation: Dispatch<SetStateAction<FlightOperation>>
+  syncFlights: () => void
 }
 
 const FlightDialogs: React.FC<FlightDialogsProps> = (props) => {
-  const { currentOperation, setCurrentOperation } = props
+  const { currentOperation, setCurrentOperation, syncFlights } = props
   const { id, action } = currentOperation
 
   if (action === "") return <></>
 
   if (action === "CREATE") {
-    return <CreateFlightDialog action="CREATE" setCurrentOperation={setCurrentOperation} />
+    return <CreateFlightDialog syncFlights={syncFlights} action="CREATE" setCurrentOperation={setCurrentOperation} />
   }
 
   if (action === "UPDATE") {
-    return <CreateFlightDialog action="UPDATE" setCurrentOperation={setCurrentOperation} id={id} />
+    return (
+      <CreateFlightDialog syncFlights={syncFlights} action="UPDATE" setCurrentOperation={setCurrentOperation} id={id} />
+    )
   }
 
   if (action === "DELETE") {
-    return <CancelFlightDialog id={id} setCurrentOperation={setCurrentOperation} />
+    return <CancelFlightDialog syncFlights={syncFlights} id={id} setCurrentOperation={setCurrentOperation} />
   }
 
   return <></>

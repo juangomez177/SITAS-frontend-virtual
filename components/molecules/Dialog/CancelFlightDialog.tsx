@@ -4,9 +4,10 @@ import React, { Dispatch, SetStateAction } from "react"
 type CancelFlightDialogProps = {
   id?: number
   setCurrentOperation: Dispatch<SetStateAction<FlightOperation>>
+  syncFlights: () => void
 }
 
-const CancelFlightDialog: React.FC<CancelFlightDialogProps> = ({ id, setCurrentOperation }) => {
+const CancelFlightDialog: React.FC<CancelFlightDialogProps> = ({ id, setCurrentOperation, syncFlights }) => {
   const handleCancelAction = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
     event.preventDefault()
     setCurrentOperation({
