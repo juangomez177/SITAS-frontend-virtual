@@ -1,5 +1,5 @@
 import authApi from "api/auth-api";
-import { LogginInterface } from "interfaces";
+import { CreateNewUserInterface, LogginInterface } from "interfaces";
 
 
 export const loggin = async (email: string, password: string): Promise<any> => {
@@ -8,5 +8,11 @@ export const loggin = async (email: string, password: string): Promise<any> => {
       userPassword: password
    }
    const { data } = await authApi.post('/auth/login', body);
+   return data;
+}
+
+
+export const createNewUser = async (body: CreateNewUserInterface): Promise<any> => {
+   const { data } = await authApi.post('/auth/register', body);
    return data;
 }

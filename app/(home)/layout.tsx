@@ -16,12 +16,10 @@ export default function HomeLayout({ children, }: { children: React.ReactNode })
     const { data: session } = useSession();
     let userInformation: JWTPayload | null = null;
 
-    if(session) {
+    if (session) {
         const token: string = session.user.token;
         userInformation = jwt.decode(token as string) as JWTPayload;
     }
-
-    console.log(userInformation?.roleId)
 
     return (
         <div className="flex flex-col min-h-screen">
@@ -40,7 +38,7 @@ export default function HomeLayout({ children, }: { children: React.ReactNode })
                         : (
                             <>
                                 <Link href="/">Reserva</Link>
-                                <MenuSession />
+                                <MenuSession userName={userInformation.userName} />
                             </>
                         )
                 }

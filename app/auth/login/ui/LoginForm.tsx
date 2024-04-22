@@ -25,7 +25,7 @@ export const LoginForm = () => {
          password: data.userPassword
       });
       if (result?.error) {
-         setError("El nombre de usuario, email o contraseña son incorrectos. Vuelve a ingresar tu información o restablece tu contraseña.");
+         setError("El email o contraseña son incorrectos. Vuelve a ingresar tu información o restablece la contraseña.");
          setIsLoading(false);
       }
       if (result?.ok) {
@@ -92,7 +92,7 @@ export const LoginForm = () => {
 
             <button className="bg-blue-500 text-center rounded h-10 mb-3 mt-3 flex items-center justify-center text-white">
                {
-                  isLoading ? <CircularProgress size={20} color="inherit" /> : 'Log In'
+                  isLoading ? <CircularProgress size={20} color="inherit" /> : 'Iniciar sesión'
                }
             </button>
 
