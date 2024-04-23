@@ -10,5 +10,6 @@ export function EditProfile({ children }: { children: React.ReactNode }) {
     </>
   )
 }
-export default EditProfile;
+
+export default EditProfile; 
 
