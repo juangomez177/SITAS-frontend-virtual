@@ -1,3 +1,4 @@
+import React from "react";
 import UpdateForm from "./ui/UpdateForm"
 import { Titles } from "components/ui/Titles"
 
@@ -9,5 +10,5 @@ export function EditProfile({ children }: { children: React.ReactNode }) {
     </>
   )
 }
-
+export default EditProfile;
 
