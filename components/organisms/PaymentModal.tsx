@@ -1,10 +1,9 @@
 "use client"
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Axios from "axios";
 import { Autocomplete, Button } from "@mui/material";
-import { Buttom } from "components/atoms/buttoms";
 
 interface ModalProps extends React.ButtonHTMLAttributes<HTMLAnchorElement> {
   paymentOption: String;
@@ -94,11 +93,15 @@ export function Modal({ paymentOption, payed, isOpen, onClose, openModal2, ...pr
   };
 
   const handleExpiryMonthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setExpiryMonth(e.target.value);
+    const inputMonth = e.target.value;
+    setCreditCardData(prevState => ({ ...prevState, expiryMonth: inputMonth }));
+    setExpiryMonth(inputMonth);
   };
 
   const handleExpiryYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setExpiryYear(e.target.value);
+    const inputYear = e.target.value;
+    setCreditCardData(prevState => ({ ...prevState, expiryYear: inputYear }));
+    setExpiryYear(inputYear);
   };
 
   const handleIdentificationTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -106,12 +109,26 @@ export function Modal({ paymentOption, payed, isOpen, onClose, openModal2, ...pr
   };
 
   const handleIdentificationNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIdentificationNumber(e.target.value);
+
+    const inputValue = e.target.value;
+    // Utiliza una expresión regular para comprobar si el valor ingresado son solo números
+    if (/^\d*$/.test(inputValue)) {
+      setIdentificationNumber(inputValue);
+      setCreditCardData(prevState => ({ ...prevState, identificationNumber: inputValue }));
+      setErrorMessage('');
+    }
+
+    else {
+      // Si el valor no es un número, muestra un mensaje de error
+      setErrorMessage('El número de identificación solo debe contener números');
+    }
   };
 
-
-
-
+  const handleCheckChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    let actual = creditCardData.agree
+    setCreditCardData(prevState => ({ ...prevState, agree: !actual }));
+  };
 
 
 
@@ -558,7 +575,6 @@ export function Modal({ paymentOption, payed, isOpen, onClose, openModal2, ...pr
                         variant="outlined"
                         value={creditCardData.expiryMonth}
                         inputProps={{ maxLength: 2, style: { padding: 8 } }}
-                        type="number"
                         onChange={handleExpiryMonthChange}
                         required
                         InputLabelProps={{
@@ -571,8 +587,7 @@ export function Modal({ paymentOption, payed, isOpen, onClose, openModal2, ...pr
                         variant="outlined"
                         value={creditCardData.expiryYear}
                         inputProps={{ maxLength: 4, style: { padding: 8 } }}
-                        type="number"
-                        onChange={handleExpiryMonthChange}
+                        onChange={handleExpiryYearChange}
                         required
                         InputLabelProps={{
                           shrink: true,
@@ -635,7 +650,7 @@ export function Modal({ paymentOption, payed, isOpen, onClose, openModal2, ...pr
 
                   <input
                     type="checkbox"
-                    onChange={(e) => e.target.value}
+                    onChange={handleCheckChange}
                     id="acceptTerms"
                     checked={creditCardData.agree}
                     className="h-4 w-4 accent-sky-700 bg-grey-700 text-red-500 rounded cursor-pointer"
@@ -872,8 +887,6 @@ export function Modal({ paymentOption, payed, isOpen, onClose, openModal2, ...pr
 
               </form>
             </div>
-
-
 
           </div>
         </div>
