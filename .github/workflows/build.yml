@@ -48,21 +48,3 @@ jobs:
         run: |
           npm install -g sonarqube-scanner
           sonar-scanner -Dsonar.login=${SONAR_TOKEN} -Dsonar.organization=${SONAR_ORGANIZATION} -Dsonar.projectKey=proyecto:react -Dsonar.sources=src -Dsonar.exclusions=src/**/*.test.js, src/**/*.spec.js -Dsonar.tests=src -Dsonar.test.inclusions=src/**/*.test.js, src/**/*.spec.js -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info -Dsonar.react.coverage.reportPaths=coverage/lcov.info
-
-  vercel:
-    name: Vercel Deployment
-    runs-on: ubuntu-latest
-
-    if: github.ref == 'refs/heads/main'  # Este job se ejecutará solo en la rama 'main'
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-        
-      - name: Install Vercel CLI
-        run: npm install -g vercel
-
-      - name: Vercel Deployment
-        run: vercel deploy --prod --token=$VERCEL_TOKEN
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
