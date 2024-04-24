@@ -1,0 +1,46 @@
+name: SonarCloud Analysis
+
+on:
+  push:
+    branches:
+      - auth
+  pull_request:
+    branches:
+      - auth
+
+jobs:
+  sonarcloud:
+    name: SonarCloud Scan
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+      
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Cache SonarCloud packages
+      uses: actions/cache@v2
+      with:
+        path: ~/.sonar/cache
+        key: ${{ runner.os }}-sonar
+        restore-keys: |
+          ${{ runner.os }}-sonar
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build
+      run: npm run build
+
+    - name: Run SonarCloud analysis
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
+      run: |
+        npm install -g sonarqube-scanner
+        sonar-scanner -Dsonar.login=${SONAR_TOKEN} -Dsonar.organization=${SONAR_ORGANIZATION} -Dsonar.projectKey=proyecto:react -Dsonar.sources=src -Dsonar.exclusions=src/**/*.test.js, src/**/*.spec.js -Dsonar.tests=src -Dsonar.test.inclusions=src/**/*.test.js, src/**/*.spec.js -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info -Dsonar.react.coverage.reportPaths=coverage/lcov.info
